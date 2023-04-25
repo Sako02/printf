@@ -1,38 +1,66 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <unistd.h>
-#include <stdlib.h>
 #include <stdarg.h>
-#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 /**
- * struct conversion - struct
- * @conv_spec: conversion specifier
- * @f: function to be executed
+ * struct fmt - Struct for formatting data.
+ * @sym: *sym: Pointer to a character string.
+ * @fn: func pointer to a function that takes a va_list as an arg.
  */
-struct conversion
+typedef struct fmt
 {
-	char conv_spec;
-	int (*f)(va_list, char*, int, char);
-};
-typedef struct conversion conv_list;
+	char *sym;
+	int (*fn)(va_list, int);
+} fmt_t;
+
+typedef struct flags
+{
+	int j;
+	int plus;
+	int space;
+	int hash;
+} flags_t;
+
+/* main */
 int _printf(const char *format, ...);
-int call_functions(conv_list *conversion,
-		va_list conv, const char *format, char *buff);
-int format_checker(const char *format, int *i, int *j,
-		va_list conv, char *buff, conv_list *conversion);
-int _strlen(const char *s);
-int _strcpy(char *dest, char *src, int i);
-int _strrev(char *dest, char *src, int i, int j);
-void _strcat(char *dest, char *src, int i);
-int _conv_flag(const char *s, int j);
-int conv_c(va_list conv, char *buff, int i, char f);
-int conv_percent(va_list conv, char *buff, int i, char f);
-int conv_s(va_list conv, char *buff, int i, char f);
-int conv_i_d(va_list conv, char *buff, int i, char f);
-int conv_b(va_list conv, char *buff, int i, char f);
-int conv_u(va_list conv, char *buff, int i, char f);
-int conv_o(va_list conv, char *buff, int i, char f);
-int conv_x(va_list conv, char *buff, int i, char f);
+
+/* handlers */
+int (*get_print(const char *format))(va_list, int);
+void parse_flags(const char *format, flags_t *flags,
+				 int, int *, int *);
+
+/* print_chars */
+int print_char(va_list list, int field_width);
+int print_str(va_list list, int field_width);
+int print_perc(va_list list, int field_width);
+
+/* print_numbers */
+int print_int(va_list list, int field_width);
+int print_unsigned(va_list list, int field_width);
+
+/* print_bases */
+int print_binary(va_list list, int field_width);
+int print_octal(va_list list, int field_width);
+int print_hex(va_list list, int field_width);
+int print_HEX(va_list list, int field_width);
+int print_addrs(va_list list, int field_width);
+
+/* print_customs */
+int print_STR(va_list list, int field_width);
+int print_rev(va_list list, int field_width);
+
+/* utilities */
+unsigned int _strlen(char *s);
+void reverse_str(char s[]);
+void _itoa(long n, char s[]);
+int to_base_n(unsigned long num, int base, char s[]);
+int _isdigit(int c);
+
+/* writes */
+int _putchar(char c);
+int _puts(char *str);
+
 #endif

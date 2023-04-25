@@ -1,148 +1,74 @@
 #include "main.h"
 
-/**
- * _printf - produces output according to a format
- * @format: what's to be printed
- *
- * Return: int
- */
+int whitespaces(const char *format, int *i);
 
+/**
+ * _printf - prints a formatted string to stdout, similar to printf.
+ * @format: the format of the string to be printed.
+ *
+ * This function prints a formatted string to the stdout stream. It
+ * accepts a format string as its first argument and any additional arguments
+ * will be used to replace format specifiers in the format string. The function
+ *
+ * Return: the number of characters printed to the stdout stream.
+ */
 int _printf(const char *format, ...)
 {
-	va_list conv;
-	conv_list conversion[] = {
-		{'c', conv_c},
-		{'s', conv_s},
-		{'%', conv_percent},
-		{'i', conv_i_d},
-		{'d', conv_i_d},
-		{'b', conv_b},
-		{'u', conv_u},
-		{'o', conv_o},
-		{'x', conv_x},
-		{'X', conv_X},
-		{'S', conv_S},
-		{'p', conv_p},
-		{'\0', NULL}
-	};
-	int i, j;
-	char buff[1024];
+	va_list args, args_copy;
+	flags_t flags = {0};
+	int (*pfn)(va_list, int);
+	int i = 0, j, printed = 0, num, field_width;
 
-	for (j = 0; j < 1024; j++)
-		buff[j] = 0;
 	if (!format)
 		return (-1);
-	if ((format[0] == '%' && !format[1]) ||
-			(format[0] == '%' && format[1] == ' ' && !format[2]))
-		return (-1);
-	va_start(conv, format);
-	i = call_functions(conversion, conv, format, buff);
-	va_end(conv);
-	_putchar(-1);
-	return (i);
-}
-/**
- * call_functions - calls function for _printf
- * @conversion: struct list
- * @conv: va list
- * @format: what's to be printed
- * @buff: buffer
- * Return: int
- */
-int call_functions(conv_list *conversion,
-		va_list conv, const char *format)
-{
-	int i, j, a, flag = 0, width = 0;
-	char mod_flag = 0;
-
-	for (i = 0, j = 0; format[j]; j++)
+	va_start(args, format);
+	va_copy(args_copy, args);
+	for (; format && format[i]; i++)
 	{
-		if (format[j] == '%' && flag != 2)
+		if (format[i] == '%')
 		{
-			if (format[j - 1] != '%' && !format[j + 1])
+			if (format[++i] == '\0')
 				return (-1);
-			for (a = 0, flag = 0; conversion[a].conv_spec; a++)
+			/* flag handler */
+			num = va_arg(args_copy, long);
+			parse_flags(format, &flags, num, &printed, &i);
+			/* handle field width */
+			if (_isdigit(format[i]))
 			{
-				if (conversion[a].conv_spec == format[j + 1])
-				{
-					flag = 1;
-					i += conversion[a].f(conv, mod_flag, width);
-					mod_flag = 0;
-				}
-				if (_conv_flag(format, j))
-					mod_flag = format[++j], a--;
-				if (_length_mods(format, j))
-					j++, a--;
-				if (_field_width(format, j))
-					width = (width * 10) + (format[++j] - '0'), a--;
+				field_width = format[i] - '0';
+				for (j = i + 1; _isdigit(format[j]); j++)
+					field_width = field_width * 10 + (format[j] - '0');
+				i = j;
 			}
-			if (flag != 1 && format[j + 1] != '%')
-				i += _putchar(format[j--]), flag = 2;
-			else if (flag != 1 && format[j + 1] == '%')
-			{
-				i += _putchar(format[j]);
-			}
-			j++;
+			if (!whitespaces(format, &i))
+				return (-1);
+			pfn = get_print(&format[i]);
+			/* for invalid formats: print as is */
+			printed += pfn
+					? pfn(args, field_width)
+					: _putchar('%') + _putchar(format[i]);
 		}
 		else
-		{
-			i += _putchar(format[j]);
-			flag = 0;
-		}
+			printed += _putchar(format[i]);
 	}
-	return (i);
-}
-/**
- * _conv_flag - checks for conversion specifiers
- * @s: string to check
- * @j: string index
- * Return: 1 if match, 0 is not
- */
-
-int _conv_flag(const char *s, int j)
-{
-	if (s[j + 1] == '#' || s[j + 1] == '+' ||
-			s[j + 1] == ' ')
-		return (1);
-	return (0);
-}
-/**
- * _length_mods - checks for conversion specifiers
- * @s: string to check
- * @j: string index
- * Return: 1 if match, 0 is not
- */
-
-int _length_mods(const char *s, int j)
-{
-	int h_flag = 0, hh_flag = 0, l_flag = 0;
-
-	if (s[j + 1] == 'h')
-	{
-		if (s[j + 2] == 'h')
-			hh_flag = 1;
-		else
-			h_flag = 1;
-	}
-	if (s[j + 1] == 'l')
-	{
-		l_flag = 1;
-	}
-	if (h_flag || hh_flag || l_flag)
-		return (1);
-	return (0);
+	va_end(args);
+	va_end(args_copy);
+	return (printed);
 }
 
 /**
- * _field_width - checks for conversion specifiers
- * @s: string to check
- * @j: string index
- * Return: 1 if match, 0 is not
+ * whitespaces - Skip whitespaces in a string
+ * @format: The string to be evaluated
+ * @i: Pointer to the index of the character being evaluated
+ * Return: 1 if valid specifer, 0 otherwise
  */
-
-int _field_width(const char *s, int j)
+int whitespaces(const char *format, int *i)
 {
-	if (s[j + 1] >= '0' && s[j + 1] <= '9')
-		return (1);
-	return (0);
+	for (; format[*i] == ' '; (*i)++)
+		if (format[*i + 1] == '\0')
+			return (0);
+	if (format[*i] == ' ')
+		(*i)++;
+	return (1);
 }
+
