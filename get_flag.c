@@ -36,20 +36,5 @@ void parse_flags(const char *format, flags_t *flags,
 
 	if (flags->plus && flags->space)
 		flags->space = 0;
-	/* handle flag: (+) and (space) */
-	if (flags->plus && num >= 0)
-		*printed += _putchar('+');
-	else if (flags->space && num >= 0)
-		*printed += _putchar(' ');
-	/* handle flag: (#) */
-	if (flags->hash)
-	{
-		pfn = get_print(&format[*i]);
-		if (pfn == print_octal)
-			*printed += _putchar('0');
-		else if (pfn == print_hex)
-			*printed += _puts("0x");
-		else if (pfn == print_HEX)
-			*printed += _puts("0X");
-	}
+
 }
