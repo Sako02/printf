@@ -3,6 +3,7 @@
 /**
  * print_char - prints a character from a va_list arg.
  * @list: va_list arg.
+ * @field_width: parameter with the field_width
  * Return: count of characters printed.
  */
 
@@ -16,6 +17,7 @@ int print_char(va_list list, int field_width)
 /**
  * print_str - prints a string from a va_list.
  * @list: the va_list containing the string to be printed.
+ * @field_width: parameter with the field_width
  * Return: count of characters printed.
  */
 
@@ -38,6 +40,7 @@ int print_str(va_list list, int field_width)
 /**
  * print_perc - prints a percent sign.
  * @list: list of arguments (unused).
+ * @field_width: parameter with the field_width
  * Return: count of characters printed.
  */
 

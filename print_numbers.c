@@ -3,6 +3,7 @@
 /**
  * print_int - prints integers from a va_list
  * @list: va_list of integers to be printed
+ * @field_width: parameter with the field_width
  * Return: number of characters printed
  */
 int print_int(va_list list, int field_width)
@@ -29,6 +30,7 @@ int print_int(va_list list, int field_width)
 /**
  * print_unsigned - prints unsigned integers from a va_list
  * @list: va_list of unsigned integers to be printed
+ * @field_width: parameter with the field_width
  * Return: number of characters printed
  */
 int print_unsigned(va_list list, int field_width)

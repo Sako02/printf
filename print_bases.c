@@ -3,6 +3,7 @@
 /**
  * print_binary - prints a binary representation of an unsigned int
  * @list: va_list of integers to be printed
+ * @field_width: parameter with the field_width
  * Return: number of characters printed
  */
 int print_binary(va_list list, int field_width)
@@ -17,6 +18,7 @@ int print_binary(va_list list, int field_width)
 /**
  * print_octal - prints a octal representation of an unsigned int
  * @list: va_list of integers to be printed
+ * @field_width: parameter with the field_width
  * Return: number of characters printed
  */
 int print_octal(va_list list, int field_width)
@@ -31,6 +33,7 @@ int print_octal(va_list list, int field_width)
 /**
  * print_hex - prints a hexadecimal representation of an unsigned int
  * @list: va_list of integers to be printed
+ * @field_width: parameter with the field_width
  * Return: number of characters printed
  */
 int print_hex(va_list list, int field_width)
@@ -54,6 +57,7 @@ int print_hex(va_list list, int field_width)
 /**
  * print_HEX - as print_hex() func but in uppercase
  * @list: va_list of integers to be printed
+ * @field_width: parameter with the field_width
  * Return: number of characters printed
  */
 int print_HEX(va_list list, int field_width)
@@ -69,6 +73,7 @@ int print_HEX(va_list list, int field_width)
 /**
  * print_addrs - prints the address of a given pointer
  * @list: va_list list of arguments
+ * @field_width: parameter with the field_width
  * Return: number of characters printed (including "0x")
  */
 int print_addrs(va_list list, int field_width)

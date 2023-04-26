@@ -3,6 +3,7 @@
 /**
  * print_STR - prints non printable characters.
  * @list: the va_list containing the string to be printed.
+ * @field_width: parameter with the field_width
  * Return: count of characters printed.
  */
 int print_STR(va_list list, int field_width)
@@ -36,6 +37,7 @@ int print_STR(va_list list, int field_width)
 /**
  * print_rev - prints a string in reverse order
  * @list: the arguments list passed to va_start()
+ * @field_width: parameter with the field_width
  * Return: the number of characters printed to the stdout stream
  */
 int print_rev(va_list list, int field_width)
