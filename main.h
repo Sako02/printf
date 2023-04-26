@@ -8,13 +8,28 @@
 /**
  * struct fmt - Struct for formatting data.
  * @sym: *sym: Pointer to a character string.
- * @fn: func pointer to a function that takes a va_list as an arg.
+ * @fn: list of pointers that takes a va_list as an arg.
  */
 typedef struct fmt
 {
 	char *sym;
 	int (*fn)(va_list, int);
 } fmt_t;
+
+/**
+ * struct flags - Struct for flagging data.
+ * @space: space of a character string.
+ * @plus: parameter for adding
+ * @hash: parameter for the hash sign
+ * @j: iteration parameter.
+ */
+typedef struct flags
+{
+	int j;
+	int plus;
+	int space;
+	int hash;
+} flags_t;
 
 /* main */
 int _printf(const char *format, ...);
