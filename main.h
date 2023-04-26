@@ -16,14 +16,6 @@ typedef struct fmt
 	int (*fn)(va_list, int);
 } fmt_t;
 
-typedef struct flags
-{
-	int j;
-	int plus;
-	int space;
-	int hash;
-} flags_t;
-
 /* main */
 int _printf(const char *format, ...);
 
