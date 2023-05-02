@@ -36,26 +36,25 @@ int _printf(const char *format, ...);
 
 /* handlers */
 int (*get_print(const char *format))(va_list, int);
-void parse_flags(const char *format, flags_t *flags,
-				 int, int *, int *);
+void parse_flags(const char *format, flags_t *flags, int *);
 
-/* print_chars */
+/* chars */
 int print_char(va_list list, int field_width);
 int print_str(va_list list, int field_width);
 int print_perc(va_list list, int field_width);
 
-/* print_numbers */
+/* numbers */
 int print_int(va_list list, int field_width);
 int print_unsigned(va_list list, int field_width);
 
-/* print_bases */
+/* bases */
 int print_binary(va_list list, int field_width);
 int print_octal(va_list list, int field_width);
 int print_hex(va_list list, int field_width);
 int print_HEX(va_list list, int field_width);
 int print_addrs(va_list list, int field_width);
 
-/* print_customs */
+/* str_rev */
 int print_STR(va_list list, int field_width);
 int print_rev(va_list list, int field_width);
 
@@ -66,7 +65,7 @@ void _itoa(long n, char s[]);
 int to_base_n(unsigned long num, int base, char s[]);
 int _isdigit(int c);
 
-/* writes */
+/* writer */
 int _putchar(char c);
 int _puts(char *str);
 

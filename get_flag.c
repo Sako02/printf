@@ -4,17 +4,13 @@
  * parse_flags - parses flags in a format string
  * @format: the format string
  * @flags: pointer to a flags_t struct
- * @num:  passed number in  va_list args
- * @printed: pointer to the count of characters printed
- * @i: pointer to the index of the format string
  *
- * This function parses flags in a format string and updates the flags_t struct
- * accordingly. It also handles the (+), (space), (#) flags.
+ * @i: pointer to the index of the format string
+ * This function parses flags in a format string
  */
-void parse_flags(const char *format, flags_t *flags,
-				 int num, int *printed, int *i)
+void parse_flags(const char *format, flags_t *flags, int *i)
 {
-	int (*pfn)(va_list, int);
+
 
 	for (flags->j = *i; format[flags->j]; flags->j++)
 	{

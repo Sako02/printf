@@ -17,7 +17,7 @@ int _printf(const char *format, ...)
 	va_list args, args_copy;
 	flags_t flags = {0};
 	int (*pfn)(va_list, int);
-	int i = 0, j, printed = 0, num, field_width;
+	int i = 0, j, num, field_width;
 
 	if (!format)
 		return (-1);
@@ -31,7 +31,7 @@ int _printf(const char *format, ...)
 				return (-1);
 			/* flag handler */
 			num = va_arg(args_copy, long);
-			parse_flags(format, &flags, num, &printed, &i);
+			parse_flags(format, &flags, &i);
 			/* handle field width */
 			if (_isdigit(format[i]))
 			{
@@ -43,7 +43,7 @@ int _printf(const char *format, ...)
 			if (!whitespaces(format, &i))
 				return (-1);
 			pfn = get_print(&format[i]);
-			/* for invalid formats: print as is */
+			/* for invalid formats: print as it is */
 			printed += pfn
 					? pfn(args, field_width)
 					: _putchar('%') + _putchar(format[i]);
